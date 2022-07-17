@@ -1,4 +1,6 @@
+# Comments begin with #. Blank lines are ignored.
 # This is the list of 2309 five-letter words taken from https://www.wordunscrambler.net/word-list/wordle-word-list
+
 aback
 abase
 abate

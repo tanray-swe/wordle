@@ -1,6 +1,6 @@
 import random
 
-def check_word(guess, answer, num_letters, hint_letters):
+def check_word(guess, answer, num_letters, hint_tuple):
     ''' We will return a string with each letter having the following meaning:'''
     ''' O: Letter is in the right place. '''
     ''' o: Letter is in the wrong place. '''
@@ -8,7 +8,7 @@ def check_word(guess, answer, num_letters, hint_letters):
     guess_list = list(guess.upper())
     answer_list = list(answer.upper())
     # hint_list starts with all "letters not found".
-    hint_list = list(hint_letters[2] * num_letters)
+    hint_list = list(hint_tuple[2] * num_letters)
     # print(guess_list)
     # print(answer_list)
     # print(hint_list)
@@ -17,7 +17,7 @@ def check_word(guess, answer, num_letters, hint_letters):
     for idx, _ in enumerate(guess_list):
         if guess_list[idx] == answer_list[idx]:
             # Put the "right place" hint into hint_list.
-           hint_list[idx] = hint_letters[0]
+           hint_list[idx] = hint_tuple[0]
            # Replace the found characters in guess with '2' and answer with '1'. They are different
            # so that found characters '2' cannot be found again in the answer as they are now '1'.
            guess_list[idx] = '2'
@@ -30,7 +30,7 @@ def check_word(guess, answer, num_letters, hint_letters):
         # We only care about letters. Numbers means they are have been "found" above.
         if x.isalpha() and x in answer_list:
             # Put the "wrong place" hint into hint_list.
-            hint_list[idx] = hint_letters[1]
+            hint_list[idx] = hint_tuple[1]
             found_index = answer_list.index(x)
             # print(x, "found at index", found_index)
             # Replace the found characters in answer with '1' so that they cannot be found again.
@@ -46,30 +46,30 @@ def check_word(guess, answer, num_letters, hint_letters):
 word_file = "five_letter_words.txt"
 num_letters = 5
 max_guesses = 6
-hint_letters = "Oo."
+hint_tuple = ('O', 'o', '.')
 
-winning_hint = hint_letters[0] * num_letters
+winning_hint = hint_tuple[0] * num_letters
 word_set = set()
 f = open(word_file, "r")
 for line in f:
-    if line[0] != "#":
-        word_set.add(line.rstrip().upper())
+    line = line.strip()
+    if line.isalpha():
+        word_set.add(line.strip().upper())
+
 f.close()
 
-# print(word_set)
-
 answer_word = random.choice(tuple(word_set))
-print("Answer is", answer_word)
+# print("Answer is", answer_word)
 
 num_guesses = 1
 current_hint = ""
 while num_guesses <= max_guesses and current_hint != winning_hint:
     prompt = "Enter guess #" + str(num_guesses) + ": "
     guess_word = input(prompt).upper()
-    # if guess_word in word_set:
-    if len(guess_word) == num_letters and guess_word.isalpha():
+    # if len(guess_word) == num_letters and guess_word.isalpha():
+    if len(guess_word) == num_letters and guess_word.isalpha() and guess_word in word_set:
         # print("Found")
-        current_hint = check_word(guess_word, answer_word, num_letters, hint_letters)
+        current_hint = check_word(guess_word, answer_word, num_letters, hint_tuple)
         print(current_hint)
         if current_hint != winning_hint:
             num_guesses += 1
