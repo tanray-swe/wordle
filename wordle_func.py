@@ -1,4 +1,4 @@
-import random
+import random, sys
 
 def check_word(guess, answer, num_letters, hint_tuple):
     ''' We will return a string with each letter having the following meaning:'''
@@ -42,7 +42,12 @@ def check_word(guess, answer, num_letters, hint_tuple):
     # print(hint_list)
     return "".join(hint_list)
 
+###############################################################################
 # Main function begins here.
+###############################################################################
+
+# So we do not want to "hard code" anything; everything must be stored in variables.
+# In the future, this could also be read from some configuration file.
 word_file = "five_letter_words.txt"
 num_letters = 5
 max_guesses = 6
@@ -50,13 +55,24 @@ hint_tuple = ('O', 'o', '.')
 
 winning_hint = hint_tuple[0] * num_letters
 word_set = set()
-f = open(word_file, "r")
+num_words = 0
+try:
+    f = open(word_file, "r")
+except IOError:
+    print("Failed to open file for reading:", word_file)
+    sys.exit(1)
+
 for line in f:
     line = line.strip()
-    if line.isalpha():
-        word_set.add(line.strip().upper())
+    # Only accept five letter words and convert them to all upper case.
+    if len(line) == num_letters and line.isalpha():
+        word_set.add(line.upper())
+        num_words += 1
+    # else:
+        # print("Skipping line:", line)
 
 f.close()
+print("Number of words read:", num_words)
 
 answer_word = random.choice(tuple(word_set))
 # print("Answer is", answer_word)
