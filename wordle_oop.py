@@ -93,7 +93,7 @@ class Wordle:
         num_guesses = 1
         current_hint = ""
         while num_guesses <= self.max_guesses and current_hint != self.winning_hint:
-            prompt = "Enter guess #" + str(num_guesses) + ": "
+            prompt = "Enter guess #" + str(num_guesses) + " of " + str(self.max_guesses) + ": "
             guess_word = input(prompt).upper()
             # if len(guess_word) == num_letters and guess_word.isalpha():
             if len(guess_word) == self.num_letters and guess_word.isalpha() and guess_word in self.word_set:

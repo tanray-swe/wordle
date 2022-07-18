@@ -87,7 +87,7 @@ answer_word = random.choice(tuple(word_set))
 num_guesses = 1
 current_hint = ""
 while num_guesses <= max_guesses and current_hint != winning_hint:
-    prompt = "Enter guess #" + str(num_guesses) + ": "
+    prompt = "Enter guess #" + str(num_guesses) + " of " + str(max_guesses) + ": "
     guess_word = input(prompt).upper()
     # if len(guess_word) == num_letters and guess_word.isalpha():
     if len(guess_word) == num_letters and guess_word.isalpha() and guess_word in word_set:
