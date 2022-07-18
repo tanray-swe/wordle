@@ -1,10 +1,13 @@
 import random, sys
 
 def check_word(guess, answer, num_letters, hint_tuple):
-    ''' We will return a string with each letter having the following meaning:'''
-    ''' O: Letter is in the right place. '''
-    ''' o: Letter is in the wrong place. '''
-    ''' .: Letter is not found. '''
+    """
+    We will return a string with each letter having the following meaning:
+    hint_tuple[0]: Letter is in the right place.
+    hint_tuple[1]: Letter is in the wrong place.
+    hint_tuple[2]: Letter is not found.
+    """
+    # Convert everything to uppercase.
     guess_list = list(guess.upper())
     answer_list = list(answer.upper())
     # hint_list starts with all "letters not found".
@@ -51,8 +54,12 @@ def check_word(guess, answer, num_letters, hint_tuple):
 word_file = "five_letter_words.txt"
 num_letters = 5
 max_guesses = 6
+# O: Letter is in the right place.
+# o: Letter is in the wrong place.
+# .: Letter is not found.
 hint_tuple = ('O', 'o', '.')
 
+# Winning hint is all letters in the right place.
 winning_hint = hint_tuple[0] * num_letters
 word_set = set()
 num_words = 0
@@ -64,7 +71,7 @@ except IOError:
 
 for line in f:
     line = line.strip()
-    # Only accept five letter words and convert them to all upper case.
+    # Only accept num_letters words and convert them to all upper case.
     if len(line) == num_letters and line.isalpha():
         word_set.add(line.upper())
         num_words += 1
